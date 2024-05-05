@@ -22,7 +22,6 @@ fig, gnt = plt.subplots()
 def generate_gantt():
     global fig, gnt
     global user
-    plt.clf()
     fig, gnt = plt.subplots()
     gnt.set_ylim(0, 80)
     gnt.set_xlim(0, 200)
@@ -42,6 +41,8 @@ def generate_gantt():
         gnt.broken_barh([options[f"{user.need_eggs}"]["bars"][x]], (66-15*x, 8),
                         facecolors=f"{options[f'{user.need_eggs}']['colors'][x]}")
     gnt.grid(False)
+    print("fuck")
+
 
 generate_gantt()
 
@@ -50,12 +51,14 @@ graph_widget = customtkinter.CTkFrame(window, width=800, height=400)
 math_widget = customtkinter.CTkFrame(window, width=500, height=1000, fg_color="white", border_color="black",
                                      border_width=2)
 lever_widget = customtkinter.CTkFrame(window, width=800, height=600)
-canvas = FigureCanvasTkAgg(fig, master=graph_widget)
+
 
 # place widgets
+graph_widget = customtkinter.CTkFrame(window, width=800, height=400)
 graph_widget.place(x=0, y=600)
 math_widget.place(x=800, y=0)
 lever_widget.place(x=0, y=0)
+canvas = FigureCanvasTkAgg(fig, master=graph_widget)
 canvas.get_tk_widget().place(x=0, y=-50, width=800, height=450)
 # generate text for the button field
 questiontext_header = customtkinter.CTkLabel(lever_widget, font=("Inter", 32),
@@ -149,22 +152,23 @@ place_timecost_calculator()
 
 
 def fresh_button_press():
+    global canvas
     user.need_eggs = "fresh"
     fresh_button.configure(state="disabled")
     frozen_button.configure(state="standard")
-    canvas.draw()
     generate_gantt()
-
-    print("pressing")
+    canvas = FigureCanvasTkAgg(fig, master=graph_widget)
+    canvas.get_tk_widget().place(x=0, y=-50, width=800, height=450)
 
 
 def frozen_button_press():
+    global user
     user.need_eggs = "frozen"
     frozen_button.configure(state="disabled")
     fresh_button.configure(state="standard")
-    canvas.draw()
     generate_gantt()
-    print("pressing")
+    canvas = FigureCanvasTkAgg(fig, master=graph_widget)
+    canvas.get_tk_widget().place(x=0, y=-50, width=800, height=450)
 
 
 # create buttons
@@ -176,7 +180,6 @@ commit_button = customtkinter.CTkButton(master=lever_widget, font=("Inter", 40),
 fresh_button.place(x=130, y=300)
 frozen_button.place(x=430, y=300)
 commit_button.place(x=130, y=450)
-
 
 # run the application
 window.mainloop()
