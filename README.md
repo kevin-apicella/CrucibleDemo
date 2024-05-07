@@ -5,4 +5,4 @@ Color changes in the text should help users quickly identify cost savings and ti
 
 This application was built in two days.
 It was built using matplotlib and Customtkinter primarily.
-It was built in coordination with a project manager and designer to meet specifications and achieve user-friendly outcomes.
+It was built in coordination with a product manager and designer to meet specifications and achieve user-friendly outcomes.
